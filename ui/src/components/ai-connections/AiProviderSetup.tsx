@@ -45,6 +45,12 @@ const providers = [
     advanced: true,
   },
   {
+    id: "opencode",
+    name: "OpenCode",
+    description: "OpenCode multi-provider harness",
+    advanced: true,
+  },
+  {
     id: "openrouter",
     name: "OpenRouter",
     description: "Models through one API key",
@@ -65,7 +71,7 @@ const providers = [
   {
     id: "local",
     name: "Local endpoint",
-    description: "A model server in the agent’s environment",
+    description: "A model server in the agent's environment",
     advanced: true,
   },
 ] as const;
@@ -146,7 +152,9 @@ export function AiProviderSetup({
         ? protocol === "messages"
           ? "anthropic"
           : "openai"
-        : (provider ?? "openai");
+        : provider === "opencode"
+          ? "minimax"
+          : (provider ?? "openai") as AiProvider;
   const name =
     reconnect?.name ??
     `${ownership === "personal" ? "My" : "Company"} ${

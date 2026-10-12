@@ -20,14 +20,17 @@ export function useConnectionModels(
       : c.id === binding?.connectionId && c.grantId === binding?.grantId,
   );
   const routing = connection?.routing;
-  const openRouter = routing?.kind === "openrouter" || (!routing && binding?.provider === "openrouter");
+  // "openrouter" here means "routing through OpenCode's openrouter-style model discovery".
+  // Both openrouter and minimax use OpenCode as the harness and share the same discovery path.
+  const openRouter = routing?.kind === "openrouter" || (!routing && (binding?.provider === "openrouter" || binding?.provider === "minimax"));
   const discover = openRouter && !routing?.models.length;
+  const catalogProvider = routing?.kind === "openrouter" ? "openrouter" : (binding?.provider ?? "openrouter");
   // Reuse the existing public catalog and its query cache. It returns OpenCode IDs;
   // strip only that transport prefix for other harnesses (openrouter/auto is
   // itself a valid upstream model ID).
   const catalog = useQuery({
-    queryKey: queryKeys.agents.adapterModels(companyId ?? "none", "opencode_local", null, "openrouter"),
-    queryFn: () => agentsApi.adapterModels(companyId!, "opencode_local", { provider: "openrouter" }),
+    queryKey: queryKeys.agents.adapterModels(companyId ?? "none", "opencode_local", null, catalogProvider),
+    queryFn: () => agentsApi.adapterModels(companyId!, "opencode_local", { provider: catalogProvider }),
     enabled: Boolean(companyId && discover),
     staleTime: 60_000,
     retry: false,
