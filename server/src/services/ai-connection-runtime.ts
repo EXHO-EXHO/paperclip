@@ -41,6 +41,7 @@ export const AI_AUTH_ENV_KEYS = [
   "OPENROUTER_API_KEY",
   "XAI_API_KEY",
   "GROK_API_KEY",
+  "MINIMAX_API_KEY",
   "CODEX_HOME",
   "GROK_HOME",
   "CLAUDE_CONFIG_DIR",
@@ -340,9 +341,18 @@ export async function prepareManagedAiRuntime(
       });
       env.OPENCODE_DISABLE_PROJECT_CONFIG = "true";
     }
-    if (!routing && input.binding.provider === "minimax") {
+    if (!routing && (input.binding.provider as string) === "minimax") {
       env.OPENCODE_CONFIG_CONTENT = JSON.stringify({
-        provider: { minimax: { options: { apiKey: value } } },
+        provider: {
+          minimax: {
+            npm: "@ai-sdk/openai-compatible",
+            name: "MiniMax",
+            options: {
+              apiKey: value,
+              baseURL: "https://api.minimax.io/v1",
+            },
+          },
+        },
       });
       env.OPENCODE_DISABLE_PROJECT_CONFIG = "true";
     }
