@@ -32,7 +32,7 @@ export function aiProviderForAdapter(
     {
       claude_local: "anthropic",
       codex_local: "openai",
-      opencode_local: "openrouter",
+      opencode_local: "minimax",
       grok_local: "xai",
       gemini_local: "google",
       hermes_local: "openrouter",

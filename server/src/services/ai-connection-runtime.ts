@@ -340,6 +340,12 @@ export async function prepareManagedAiRuntime(
       });
       env.OPENCODE_DISABLE_PROJECT_CONFIG = "true";
     }
+    if (!routing && input.binding.provider === "minimax") {
+      env.OPENCODE_CONFIG_CONTENT = JSON.stringify({
+        provider: { minimax: { options: { apiKey: value } } },
+      });
+      env.OPENCODE_DISABLE_PROJECT_CONFIG = "true";
+    }
     if (!routing && input.binding.provider === "google") {
       // Gemini headless CLI requires an explicit auth choice even with an API key.
       // Seed only the disposable connection home, never the operator's settings.

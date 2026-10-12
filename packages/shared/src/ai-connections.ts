@@ -33,6 +33,7 @@ export const AI_PROVIDERS = [
   "openrouter",
   "xai",
   "google",
+  "minimax",
 ] as const;
 export const aiProviderSchema = z.enum(AI_PROVIDERS);
 export const aiAuthMethodSchema = z.enum(["subscription", "api_key"]);
@@ -108,6 +109,12 @@ export const AI_CONNECTION_CAPABILITIES: Record<
     methods: {
       subscription: { adapters: ["grok_local"], envKey: "GROK_HOME" },
       api_key: { adapters: ["grok_local"], envKey: "XAI_API_KEY" },
+    },
+  },
+  minimax: {
+    name: "MiniMax",
+    methods: {
+      api_key: { adapters: ["opencode_local"], envKey: "MINIMAX_API_KEY" },
     },
   },
 };

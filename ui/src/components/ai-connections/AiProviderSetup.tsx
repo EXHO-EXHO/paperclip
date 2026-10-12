@@ -39,6 +39,12 @@ const providers = [
   { id: "google", name: "Google", description: "Gemini API key" },
   { id: "xai", name: "xAI", description: "Grok subscription or API key" },
   {
+    id: "minimax",
+    name: "MiniMax",
+    description: "MiniMax API key",
+    advanced: true,
+  },
+  {
     id: "openrouter",
     name: "OpenRouter",
     description: "Models through one API key",
